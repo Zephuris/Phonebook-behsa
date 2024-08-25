@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-
+﻿using Models;
+using Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +9,8 @@ namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
     {
+        PhoneBookService _service = new PhoneBookService();
 
-
-        string filePath = @"D:\data.json";
         string selectedId = "";
         public Form1()
         {
@@ -19,118 +18,43 @@ namespace WindowsFormsApp1
         }
 
 
-        public class Contact
-        {
-            public Guid Id { get; set; }
-            public string Firstname { get; set; }
-            public string Lastname { get; set; }
-            public string PhoneNumber { get; set; }
-        }
-
-
 
         private void button1_Click(object sender, EventArgs e)
         {
 
-            var contacts = GetContacts();
+            var contacts = _service.GetContacts();
 
             var newContact = new Contact();
             newContact.Firstname = txt_firstname.Text;
             newContact.Lastname = txt_lastname.Text;
             newContact.PhoneNumber = txt_phoneNumber.Text;
 
-
-            if (string.IsNullOrEmpty(selectedId))
+            if (selectedId != "")
             {
-
-                newContact.Id = Guid.NewGuid();
-                contacts.Add(newContact);
-            }
-            else
-            {
-                var contactForEdit = contacts.FirstOrDefault(x => x.Id.ToString() == selectedId);
-                contacts.Remove(contactForEdit);
                 newContact.Id = Guid.Parse(selectedId);
-                contacts.Add(newContact);
-                selectedId = "";
             }
+            ///var contactForEdit = contacts.FirstOrDefault(x => x.Id.ToString() == selectedId);
 
+            ///newContact.Id = Guid.Parse(selectedId);
 
-
-            var saveResult = SaveContact(contacts);
+            var saveResult = _service.SaveContact(newContact);
+            selectedId = "";
             if (saveResult)
             {
-                FillGridView(contacts);
+                FillGridView(_service.GetContacts());
             }
             clearForm();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            if (!System.IO.File.Exists(filePath))
-            {
-                System.IO.File.Create(filePath);
-            }
 
-            var contacts = GetContacts();
+            var contacts = _service.GetContacts();
             FillGridView(contacts);
         }
 
 
 
-        public List<Contact> GetContacts()
-        {
-            var result = new List<Contact>();
-
-            try
-            {
-                var fileString = System.IO.File.ReadAllText(filePath);
-                result = JsonConvert.DeserializeObject<List<Contact>>(fileString);
-                if (result == null)
-                {
-                    result = new List<Contact>();
-                }
-                bool hasInvalidId = false;
-                foreach (var contact in result)
-                {
-                    if (contact.Id == null || contact.Id == Guid.Empty)
-                    {
-                        hasInvalidId = true;
-                        contact.Id = Guid.NewGuid();
-                    }
-                }
-                if (hasInvalidId)
-                {
-                    SaveContact(result);
-                }
-
-            }
-            catch (Exception)
-            {
-
-            }
-
-
-            return result;
-
-        }
-
-        public bool SaveContact(List<Contact> model)
-        {
-
-            try
-            {
-                var stringModel = JsonConvert.SerializeObject(model);
-                System.IO.File.WriteAllText(filePath, stringModel);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-
-
-        }
 
 
         public void FillGridView(List<Contact> model)
@@ -156,7 +80,7 @@ namespace WindowsFormsApp1
         {
             var index = grd_contacts.CurrentRow.Index;
             var id = grd_contacts.Rows[index].Cells[0].Value.ToString();
-            var contacts = GetContacts();
+            var contacts = _service.GetContacts();
 
             try
             {
@@ -185,13 +109,16 @@ namespace WindowsFormsApp1
         {
             if (!string.IsNullOrEmpty(selectedId))
             {
-                var contacts = GetContacts();
-                var contactForDelete = contacts.FirstOrDefault(x => x.Id.ToString() == selectedId);
-                contacts.Remove(contactForDelete);
-                SaveContact(contacts);
+                var deleteResult = _service.DeleteContact(selectedId);
+                var contacts = _service.GetContacts();
                 FillGridView(contacts);
                 clearForm();
             }
+        }
+
+        private void txt_firstname_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
