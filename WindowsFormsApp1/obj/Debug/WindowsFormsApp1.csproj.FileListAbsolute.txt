@@ -70,3 +70,10 @@ F:\BehsaBootCampProject\BehsaBootCampProject\WindowsFormsApp1\bin\Debug\System.N
 F:\BehsaBootCampProject\BehsaBootCampProject\WindowsFormsApp1\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 F:\BehsaBootCampProject\BehsaBootCampProject\WindowsFormsApp1\bin\Debug\System.Threading.Tasks.Extensions.xml
 F:\BehsaBootCampProject\BehsaBootCampProject\WindowsFormsApp1\obj\Debug\WindowsF.A1EEDF9B.Up2Date
+F:\backup behsa\BehsaBootCampProject\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.AssemblyReference.cache
+F:\backup behsa\BehsaBootCampProject\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Form1.resources
+F:\backup behsa\BehsaBootCampProject\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Properties.Resources.resources
+F:\backup behsa\BehsaBootCampProject\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.GenerateResource.cache
+F:\backup behsa\BehsaBootCampProject\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.CoreCompileInputs.cache
+F:\backup behsa\BehsaBootCampProject\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.exe
+F:\backup behsa\BehsaBootCampProject\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.pdb
